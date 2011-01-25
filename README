@@ -1,0 +1,7 @@
+NetDumper - Modified lv1dumper -> netdumper from TheAnswer/flukes1/etc.
+#######
+Usage: Launch PS3 app, then run shell script dump_bin.sh {ps3 ip} {dump file name}
+IE:
+
+$ ./dump_bin.sh 10.0.0.231 lv1dump.bin
+
