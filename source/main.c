@@ -50,9 +50,25 @@ void dump_lv1() {
 	PRINTF("Wrote Output to %s\n", DUMP_FILENAME);
 
 }
+void dump_lv2() {
+	FILE *f = fopen(DUMP2_FILENAME, "wb");
+	u64 quad;
+	for (u64 i = (u64)LV2_BASE; i < LV2_BASE + LV2_SIZE; i += 8) {
+		quad = lv2_peek(i);
+		fwrite(quad, 8, 1, f);
+	}
+	fclose(f);
+	PRINTF("Wrote Output to %s\n", DUMP2_FILENAME);
+
+}
 
 void dump_lv1_net() {
 	for (u64 i = (u64)HV_BASE; i < HV_BASE + HV_SIZE; i += 8) {
+		PRINTF("%16.16lX", lv2_peek(i));
+	}
+}
+void dump_lv2_net() {
+	for (u64 i = (u64)LV2_BASE; i < LV2_BASE + LV2_SIZE; i += 8) {
 		PRINTF("%16.16lX", lv2_peek(i));
 	}
 
@@ -81,15 +97,11 @@ s32 main(s32 argc, const char* argv[]) {
 		//exit(0);
 		color = FONT_COLOR_RED;
 	} else {
-		//PRINTF("patching lv2 mem protection\n");
 		//patch_lv2_protection();
-		//PRINTF("Dumping lv1\n");
 		dump_lv1_net();
-		//PRINTF("peeking lv2 mem protection\n");
+		//dump_lv2_net();
 		//peek_lv2_protection();
-		//PRINTF("unmapping lv1\n");
 		unmap_lv1();
-		//PRINTF("removing new poke syscall\n");
 		remove_new_poke();
 			}			
 	PRINTF("done, exiting\n");
